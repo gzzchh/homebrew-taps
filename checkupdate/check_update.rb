@@ -1,0 +1,3 @@
+class CheckUpdate
+
+end

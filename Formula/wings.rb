@@ -1,11 +1,13 @@
-class WingsLinuxAmd < Formula
-  desc ""
+class WingsCn < Formula
+  desc "Pterodactyl Wings"
   homepage ""
   url "https://release-mirror-1251511762.cos.ap-guangzhou.myqcloud.com/pterodactyl/wings/v1.4.5/wings_linux_amd64"
   sha256 "95cc085c7e215343f5ea6511a058babd905b675725dbd405a8a755dd725da11c"
-  license ""
+  license "MIT"
 
-  # depends_on "cmake" => :build
+  class CheckUpdate
+    @type = "github"
+  end
 
   def install
     # ENV.deparallelize  # if your formula fails when building in parallel
