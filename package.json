@@ -1,0 +1,15 @@
+{
+  "name": "homebrew-taps",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:gzzchh/homebrew-taps.git",
+  "author": "gzzchh <xjdzch@126.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "node src/lint.js"
+  },
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "klaw-sync": "^6.0.0"
+  }
+}
