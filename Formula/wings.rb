@@ -13,18 +13,22 @@ class Wings < Formula
   # 这里开始是 Formula 的部分
   desc "Pterodactyl Wings"
   homepage ""
-  version version_info["info"]["version"]
-  url version_info["info"]["linux"]["amd64"]["url"]
-  sha256 version_info["info"]["linux"]["amd64"]["sha256"]
-  license "MIT"
+  version(version_info["info"]["version"])
+  url(version_info["info"]["linux"]["amd64"]["url"])
+  sha256(version_info["info"]["linux"]["amd64"]["sha256"])
+  license("MIT")
 
   def install
-    filename = File.basename(__FILE__, File.extname(__FILE__,))
+    filename       = File.basename(__FILE__, File.extname(__FILE__,))
     git_repository = File.dirname(File.dirname(__FILE__))
+    # 在这一步,路径仍然是仓库路径
+    system("echo", "#{git_repository}")
+    # system("echo", "#{prefix}/version")
+    # system("echo", "#{git_repository}/versions/#{filename}.json")
     bin.install "wings_linux_amd64" => "wings"
     # 安装版本信息
-    system("mkdir", "-p", "#{prefix}/.brew/version")
-    bin.install "#{git_repository}/versions/#{filename}.json", "#{prefix}/.brew/version"
+    system("mkdir", "-p", "#{prefix}/versions")
+    system("cp", "#{git_repository}/versions/#{filename}.json", "#{prefix}/versions")
   end
 
   test do
