@@ -1,20 +1,30 @@
-class WingsCn < Formula
+require 'json'
+
+class Wings < Formula
+
+  # 确定我的文件名 不包含扩展名
+  filename = File.basename(__FILE__, File.extname(__FILE__,))
+  # 确定仓库目录,其实就是向上跳转两次
+  git_repository = File.dirname(File.dirname(__FILE__))
+  # 确定版本信息文件
+  json_file    = File.read("#{git_repository}/versions/#{filename}.json")
+  version_info = JSON.parse(json_file)
+
+  # 这里开始是 Formula 的部分
   desc "Pterodactyl Wings"
   homepage ""
-  url "https://release-mirror-1251511762.cos.ap-guangzhou.myqcloud.com/pterodactyl/wings/v1.4.5/wings_linux_amd64"
-  sha256 "95cc085c7e215343f5ea6511a058babd905b675725dbd405a8a755dd725da11c"
+  version version_info["info"]["version"]
+  url version_info["info"]["linux"]["amd64"]["url"]
+  sha256 version_info["info"]["linux"]["amd64"]["sha256"]
   license "MIT"
 
-  class CheckUpdate
-    @type = "github"
-  end
-
   def install
-    # ENV.deparallelize  # if your formula fails when building in parallel
-    # Remove unrecognized options if warned by configure
-    # https://rubydoc.brew.sh/Formula.html#std_configure_args-instance_method
-    system "./configure", *std_configure_args, "--disable-silent-rules"
-    # system "cmake", "-S", ".", "-B", "build", *std_cmake_args
+    filename = File.basename(__FILE__, File.extname(__FILE__,))
+    git_repository = File.dirname(File.dirname(__FILE__))
+    bin.install "wings_linux_amd64" => "wings"
+    # 安装版本信息
+    system("mkdir", "-p", "#{prefix}/.brew/version")
+    bin.install "#{git_repository}/versions/#{filename}.json", "#{prefix}/.brew/version"
   end
 
   test do
@@ -28,5 +38,11 @@ class WingsCn < Formula
     # The installed folder is not in the path, so use the entire path to any
     # executables being tested: `system "#{bin}/program", "do", "something"`.
     system "false"
+  end
+
+  def caveats
+    on_macos do
+      "不支持 macOS"
+    end
   end
 end
