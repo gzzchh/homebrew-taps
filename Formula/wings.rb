@@ -1,5 +1,3 @@
-require 'json'
-
 class Wings < Formula
 
   filename       = File.basename(__FILE__, File.extname(__FILE__,))
